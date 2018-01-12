@@ -13,6 +13,10 @@
    （2）go get -u github.com/beego/bee
    （3）go get github.com/astaxie/beego/session
    （4）go get -u github.com/go-sql-driver/mysql
+   
+   
+4、运行
+   确保以上安装完毕后，执行 bee run 命令即可。验证地址则参见SAMPLE-README.md
 
 
 ## 目前已完成工作
