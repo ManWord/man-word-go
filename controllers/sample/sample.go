@@ -22,22 +22,7 @@ func (this *SampleController) Get() {
 	//Info日志输出
 	logs.Info("get method invoke...")
 
-	username := this.Ctx.Input.Param(":username")
-
-	test := this.GetSession(username)
-
-	//
-	logs.Info(username, test)
-
-	this.CruSession.Set(username, username)
-
-	if !utils.IsLogin(this.CruSession, username) {
-
-		//登录不应太在这里调用，这个只是测试，说明登录功能可用
-		//此时如果没有login，返回给前端数据即可，有前端来redirect
-		utils.Login(this.CruSession, username)
-	}
-
+	//just invoke post
 	this.Post();
 }
 
@@ -45,7 +30,19 @@ func (this *SampleController) Get() {
 func (this *SampleController) Post() {
 	//Debug日志输出
 	logs.Debug("post method invoke...")
-	this.Ctx.WriteString(beego.AppConfig.String("jdbc.username"))
+
+	if !utils.IsLogin(this.Controller) {
+		this.Ctx.WriteString("You have not login...")
+		return
+	}
+
+	sessionInfo := utils.GetSessionInfo(this.Controller)
+	username := sessionInfo.Username
+	password := sessionInfo.Password
+
+	response := "hi guy: " + username + "  your password is : " + password
+
+	this.Ctx.WriteString(response)
 
 }
 
